@@ -1,0 +1,72 @@
+//Monday April 30th
+
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
+
+public class PlayerController : MonoBehaviour {
+
+	public Text countTextL1;//UI text that counts pickups Level 1
+	public Text countTextL2;//UI text that counts pickups Level 2
+	public Text level;
+	
+  private int L1count;
+	private int L2count;
+
+	public GameObject Door1;
+	public GameObject Door2;
+	
+  void Start (){
+		
+		L1count = 0;//starts objects obtained at 0
+		L2count = 0;
+		Level1 ();//call function below
+		
+		countTextL1.text ="0/3";
+		countTextL2.text = "";
+		level.text = "Level 1";
+
+	}
+	
+	void OnTriggerEnter(Collider other) //when we collide
+	{
+		if (other.gameObject.CompareTag ("Pick Up 1"))//if it is a pick op object
+		{
+			other.gameObject.SetActive (false);//set them to deactivate
+			L1count = L1count + 1;//add the number picked up by one
+			Level1 ();
+			Debug.Log("L1count " + L1count);
+		}
+		if (other.gameObject.CompareTag ("Pick Up 2"))//if it is a pick op object
+		{
+			other.gameObject.SetActive (false);//set them to deactivate
+			L2count = L2count + 1;//add the clock number by one
+			Level2 ();
+			Debug.Log("L2count " + L2count);
+		}
+
+	}
+
+	public void Level1 ()
+	{
+		countTextL1.text = L1count.ToString () + " / 3";//makes UI say Clock and the number out of 3
+		if (L1count >= 3)//if they get all the clock
+			{
+			Destroy (Door1);//the doorway is destroyed so we can pass through
+			level.text = "Level 2";
+		}
+	
+}
+	public void Level2 ()
+	{
+		countTextL2.text = L2count.ToString () + " /4";//makes UI say Clock and the number out of 3
+		if (L2count >= 4)//if they get all the clocks
+		{
+			Destroy (Door2);//the doorway is destroyed so we can pass through
+			level.text = "Level 3";
+		}
+	}
+
+
+}
